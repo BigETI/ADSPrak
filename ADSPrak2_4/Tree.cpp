@@ -74,8 +74,8 @@ TreeNode * Tree::removeNode(TreeNode * node, int node_pos_id, bool & result)
 				else
 				{
 					n = node->getLeft();
-					node = node->getRight();
-					delete n;
+					delete node;
+					node = n;
 				}
 			}
 			else
@@ -83,8 +83,8 @@ TreeNode * Tree::removeNode(TreeNode * node, int node_pos_id, bool & result)
 				if (node->getRight())
 				{
 					n = node->getRight();
-					node = node->getLeft();
-					delete n;
+					delete node;
+					node = n;
 				}
 				else
 				{
