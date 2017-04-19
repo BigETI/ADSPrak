@@ -102,9 +102,22 @@ bool List::swap(int key1, int key2)
 			{
 				if (n2->key == key2)
 				{
-					int t = n1->key;
+					Node *tp(n1->prev), *tn(n1->next);
+					/*int t = n1->key;
 					n1->key = n2->key;
-					n2->key = t;
+					n2->key = t;*/
+					if (n1->prev != head)
+						n1->prev->next = n2;
+					if (n1->next != tail)
+						n1->next->prev = n2;
+					if (n2->prev != head)
+						n2->prev->next = n1;
+					if (n2->next != tail)
+						n2->next->prev = n2;
+					n1->prev = n2->prev;
+					n1->next = n2->next;
+					n2->prev = tp;
+					n2->next = tn;
 					ret = true;
 					break;
 				}
