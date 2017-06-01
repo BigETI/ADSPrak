@@ -45,12 +45,12 @@ RingNode * Ringpuffer::addNode(std::string description, const Tree & data)
 				}
 				if (p)
 					p->detachLast();
+				break;
 			}
 			p = rn;
 		}
 		Anker = ret;
 	}
-	
 	return ret;
 }
 

@@ -49,7 +49,7 @@ int main(void)
 	cout << MyList3 << endl;
 
 	cout << "tauschen von 8 mit 103\n\n";
-	MyList3.swap(8, 103);
+	MyList3.swap(8, 9);
 	
 	cout << MyList3;
 

@@ -250,7 +250,7 @@ size_t Tree::parseCSV(std::istream & is)
 		std::vector<std::string> r;
 		std::stringstream ss(l);
 		std::string c;
-		while (std::getline(ss, c, ','))
+		while (std::getline(ss, c, ';'))
 			r.push_back(c);
 		if (!ss && c.empty())
 			r.push_back(std::string());
