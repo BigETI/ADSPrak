@@ -175,7 +175,21 @@ void Graph::clear()
 
 //Implement this:
 
-void Graph::depthSearchRek(int startKey, std::vector<GraphNode *> & result)
+bool checkTree(std::vector<GraphNode *> & nodes)
+{
+	bool ret(true);
+	for (std::vector<GraphNode *>::iterator it(nodes.begin()), end(nodes.end()); it != end; ++it)
+	{
+		if (!((*it)->_visited))
+		{
+			ret = false;
+			break;
+		}
+	}
+	return ret;
+}
+
+bool Graph::depthSearchRek(int startKey, std::vector<GraphNode *> & result)
 {
 	GraphNode *n(GetNodeByKey(startKey));
 	result.clear();
@@ -184,9 +198,10 @@ void Graph::depthSearchRek(int startKey, std::vector<GraphNode *> & result)
 		setAllUnvisited();
 		inDepthsearchRek(n, result);
 	}
+	return checkTree(_nodes);
 }
 
-void Graph::breadthSearchIter(int startKey, std::vector<GraphNode *> & result)
+bool Graph::breadthSearchIter(int startKey, std::vector<GraphNode *> & result)
 {
 	GraphNode *n(GetNodeByKey(startKey));
 	std::stack<GraphNode *> nodes_s;
@@ -213,9 +228,10 @@ void Graph::breadthSearchIter(int startKey, std::vector<GraphNode *> & result)
 				nodes_s.push(*rit);
 		}
 	}
+	return checkTree(_nodes);
 }
 //Or this
-void Graph::depthSearchIter(int startKey, std::vector<GraphNode *> & result)
+bool Graph::depthSearchIter(int startKey, std::vector<GraphNode *> & result)
 {
 	std::stack<GraphNode *> node_s;
 	GraphNode *n(GetNodeByKey(startKey));
@@ -235,9 +251,10 @@ void Graph::depthSearchIter(int startKey, std::vector<GraphNode *> & result)
 			}
 		}
 	}
+	return checkTree(_nodes);
 }
 
-void Graph::breadthSearchRek(int startKey, std::vector<GraphNode *> & result)
+bool Graph::breadthSearchRek(int startKey, std::vector<GraphNode *> & result)
 {
 	GraphNode *n(GetNodeByKey(startKey));
 	result.clear();
@@ -247,6 +264,7 @@ void Graph::breadthSearchRek(int startKey, std::vector<GraphNode *> & result)
 		n->_visited = true;
 		inBreadthSearchRek(n, result);
 	}
+	return checkTree(_nodes);
 }
 
 //This must be done by you

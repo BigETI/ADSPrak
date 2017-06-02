@@ -58,72 +58,76 @@ int main() {
 
 		switch (menuwahl)
 		{
-		//Read Graph
+			//Read Graph
 		case 1:
-			{
-				std::string path;
-				std::cout << "Insert path of Graphfile: " << std::endl;
-				std::cin >> path;
+		{
+			std::string path;
+			std::cout << "Insert path of Graphfile: " << std::endl;
+			std::cin >> path;
 
-				bool done = myGraph->init(path);
+			bool done = myGraph->init(path);
 
-				if (done)
-					std::cout << "Initialize graph successful" << std::endl;
-				else
-					std::cout << "Cannot read file" << std::endl;
-			}
-			break;
+			if (done)
+				std::cout << "Initialize graph successful" << std::endl;
+			else
+				std::cout << "Cannot read file" << std::endl;
+		}
+		break;
 
 		//Depthsearch
 		case 2:
 			std::cout << "Choose a startkey: " << std::endl;
 			std::cin >> key;
+			std::cout << (
 #ifdef SEARCH_ITERATIVE
 				//This way:
-			myGraph->depthSearchIter(key, result_nodes);
+				myGraph->depthSearchIter(key, result_nodes)
 #else
 				//Or this:
-			myGraph->depthSearchRek(key, result_nodes);
+				myGraph->depthSearchRek(key, result_nodes)
 #endif
+				? "Ja" : "Nein") << std::endl;
 			print_nodes(result_nodes);
 			break;
 
-		//Breadthsearch
+			//Breadthsearch
 		case 3:
 			std::cout << "Choose a startkey: " << std::endl;
 			std::cin >> key;
+			std::cout << (
 #ifdef SEARCH_ITERATIVE
 				//This way:
-			myGraph->breadthSearchIter(key, result_nodes);
+				myGraph->breadthSearchIter(key, result_nodes)
 #else
-			//Or this:
-			myGraph->breadthSearchRek(key, result_nodes);
+				//Or this:
+				myGraph->breadthSearchRek(key, result_nodes)
 #endif
+				? "Ja" : "Nein") << std::endl;
 			print_nodes(result_nodes);
 			break;
 
-		//Prim
+			//Prim
 		case 4:
 			std::cout << "Choose a startkey: " << std::endl;
 			std::cin >> key;
 			std::cout << "Tree weight: " << myGraph->prim(key) << std::endl;
 			break;
 
-		//Kruskal
+			//Kruskal
 		case 5:
 			std::cout << "Tree weight: " << myGraph->kruskal() << std::endl;
 			break;
-		//Print function
+			//Print function
 		case 6:
-			{
-				bool done = myGraph->print();
+		{
+			bool done = myGraph->print();
 
-				if (done)
-					std::cout << "Print graph successful" << std::endl;
-				else
-					std::cout << "Not able to print" << std::endl;
-			}
-			break;
+			if (done)
+				std::cout << "Print graph successful" << std::endl;
+			else
+				std::cout << "Not able to print" << std::endl;
+		}
+		break;
 
 		//Quit
 		case 0:

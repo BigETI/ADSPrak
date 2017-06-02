@@ -21,11 +21,11 @@ public:
 	void clear();
 
     //Implement this:
-	void depthSearchRek(int startKey, std::vector<GraphNode *> & result);
-	void breadthSearchIter(int startKey, std::vector<GraphNode *> & result);
+	bool depthSearchRek(int startKey, std::vector<GraphNode *> & result);
+	bool breadthSearchIter(int startKey, std::vector<GraphNode *> & result);
     //Or this
-    void depthSearchIter(int startKey, std::vector<GraphNode *> & result);
-	void breadthSearchRek(int startKey, std::vector<GraphNode *> & result);
+	bool depthSearchIter(int startKey, std::vector<GraphNode *> & result);
+	bool breadthSearchRek(int startKey, std::vector<GraphNode *> & result);
 
     //This must be done by you
     double prim(int startKey);
