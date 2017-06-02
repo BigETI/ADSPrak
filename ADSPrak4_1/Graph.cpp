@@ -6,6 +6,46 @@
 #include <functional>
 #include <set>
 
+template <class _T> bool foundInVector(std::vector<typename _T> & v, typename _T val)
+{
+	bool ret(false);
+	for (std::vector<typename _T>::iterator it(v.begin()), end(v.end()); it != end; ++it)
+	{
+		if ((*it) == val)
+		{
+			ret = true;
+			break;
+		}
+	}
+	return ret;
+}
+
+void inDepthsearchRek(GraphNode *node, std::vector<GraphNode *> & result)
+{
+	if (!(node->_visited))
+	{
+		result.push_back(node);
+		node->_visited = true;
+		for (std::vector<GraphNode::edge>::iterator it(node->_edges.begin()), end(node->_edges.end()); it != end; ++it)
+			inDepthsearchRek(it->node, result);
+	}
+}
+
+void inBreadthSearchRek(GraphNode *node, std::vector<GraphNode *> & result)
+{
+	std::vector<GraphNode *> t;
+	for (std::vector<GraphNode::edge>::iterator it(node->_edges.begin()), end(node->_edges.end()); it != end; ++it)
+	{
+		if (!(foundInVector(result, it->node)))
+		{
+			t.push_back(it->node);
+			result.push_back(it->node);
+		}
+	}
+	for (std::vector<GraphNode *>::iterator it(t.begin()), end(t.end()); it != end; ++it)
+		inBreadthSearchRek(*it, result);
+}
+
 Graph::Graph()
 {
 	_anzKnoten = 0;
@@ -119,9 +159,7 @@ bool Graph::print()
 			}
 		}
 		std::cout << std::endl;
-
 	}
-
 	return true;
 }
 
@@ -137,17 +175,6 @@ void Graph::clear()
 
 //Implement this:
 
-void inDepthsearchRek(int startKey, GraphNode *node, std::vector<GraphNode *> & result)
-{
-	if (!(node->_visited))
-	{
-		result.push_back(node);
-		node->_visited = true;
-		for (std::vector<GraphNode::edge>::iterator it(node->_edges.begin()), end(node->_edges.end()); it != end; ++it)
-			inDepthsearchRek(startKey, it->node, result);
-	}
-}
-
 void Graph::depthSearchRek(int startKey, std::vector<GraphNode *> & result)
 {
 	GraphNode *n(GetNodeByKey(startKey));
@@ -155,30 +182,35 @@ void Graph::depthSearchRek(int startKey, std::vector<GraphNode *> & result)
 	if (n)
 	{
 		setAllUnvisited();
-		inDepthsearchRek(startKey, n, result);
+		inDepthsearchRek(n, result);
 	}
 }
 
 void Graph::breadthSearchIter(int startKey, std::vector<GraphNode *> & result)
 {
-	std::queue<GraphNode *> node_q;
 	GraphNode *n(GetNodeByKey(startKey));
+	std::stack<GraphNode *> nodes_s;
+	std::vector<GraphNode *> t;
 	result.clear();
 	if (n)
 	{
-		node_q.push(n);
-		setAllUnvisited();
-		while (!(node_q.empty()))
+		result.push_back(n);
+		nodes_s.push(n);
+		while (!(nodes_s.empty()))
 		{
-			n = node_q.front();
-			node_q.pop();
-			if (!(n->_visited))
+			n = nodes_s.top();
+			nodes_s.pop();
+			t.clear();
+			for (std::vector<GraphNode::edge>::iterator it(n->_edges.begin()), end(n->_edges.end()); it != end; ++it)
 			{
-				result.push_back(n);
-				n->_visited = true;
-				for (std::vector<GraphNode::edge>::iterator it(n->_edges.begin()), end(n->_edges.end()); it != end; ++it)
-					node_q.push(it->node);
+				if (!(foundInVector(result, it->node)))
+				{
+					t.push_back(it->node);
+					result.push_back(it->node);
+				}
 			}
+			for (std::vector<GraphNode *>::reverse_iterator rit(t.rbegin()), rend(t.rend()); rit != rend; ++rit)
+				nodes_s.push(*rit);
 		}
 	}
 }
@@ -191,31 +223,16 @@ void Graph::depthSearchIter(int startKey, std::vector<GraphNode *> & result)
 	if (n)
 	{
 		node_s.push(n);
-		setAllUnvisited();
 		while (!(node_s.empty()))
 		{
 			n = node_s.top();
 			node_s.pop();
-			if (!(n->_visited))
+			if (!(foundInVector(result, n)))
 			{
 				result.push_back(n);
-				n->_visited = true;
-				for (std::vector<GraphNode::edge>::iterator it(n->_edges.begin()), end(n->_edges.end()); it != end; ++it)
-					node_s.push(it->node);
+				for (std::vector<GraphNode::edge>::reverse_iterator rit(n->_edges.rbegin()), rend(n->_edges.rend()); rit != rend; ++rit)
+					node_s.push(rit->node);
 			}
-		}
-	}
-}
-
-void inBreadthSearchRek(GraphNode *node, std::queue<GraphNode *> & node_q)
-{
-	if (!(node->_visited))
-	{
-		node->_visited = true;
-		for (std::vector<GraphNode::edge>::iterator it(node->_edges.begin()), end(node->_edges.end()); it != end; ++it)
-		{
-			node_q.push(it->node);
-			inBreadthSearchRek(it->node, node_q);
 		}
 	}
 }
@@ -223,17 +240,12 @@ void inBreadthSearchRek(GraphNode *node, std::queue<GraphNode *> & node_q)
 void Graph::breadthSearchRek(int startKey, std::vector<GraphNode *> & result)
 {
 	GraphNode *n(GetNodeByKey(startKey));
-	std::queue<GraphNode *> nodes_q;
 	result.clear();
 	if (n)
 	{
-		setAllUnvisited();
-		inBreadthSearchRek(_nodes[0], nodes_q);
-		while (!(nodes_q.empty()))
-		{
-			result.push_back(nodes_q.front());
-			nodes_q.pop();
-		}
+		result.push_back(n);
+		n->_visited = true;
+		inBreadthSearchRek(n, result);
 	}
 }
 

@@ -19,7 +19,7 @@ void displayMenu()
 		<< "?> ";
 }
 
-void print_nodes(std::vector<GraphNode *> nodes)
+void print_nodes(std::vector<GraphNode *> & nodes)
 {
 	bool first(true);
 	for (std::vector<GraphNode *>::iterator it(nodes.begin()), end(nodes.end()); it != end; ++it)

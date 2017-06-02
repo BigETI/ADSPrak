@@ -5,7 +5,7 @@ GraphNode::GraphNode(int key)
     _key = key;
     _visited = false;
     _distance = 0.;
-    _prev = nullptr;
+    //_prev = nullptr;
     _edges.clear();
 }
 

@@ -43,8 +43,8 @@ public:
     std::vector<edge> _edges;
     bool _visited;
     double _distance;
-    GraphNode *_prev;
-    int _component;
+    //GraphNode *_prev;
+    //int _component;
 
 };
 
