@@ -285,6 +285,38 @@ double Graph::prim(int startKey)
 				nodes_s.push(e->node);
 			}
 		}
+#ifdef PRIM_PLUS_MAVERIKS
+		std::vector<GraphNode *> maveriks;
+		for (std::vector<GraphNode *>::iterator it(_nodes.begin()), end(_nodes.end()); it != end; ++it)
+		{
+			if (!((*it)->_visited))
+				maveriks.push_back(*it);
+		}
+		setAllUnvisited();
+		for (std::vector<GraphNode *>::iterator it(maveriks.begin()), end(maveriks.end()); it != end; ++it)
+		{
+			if (!((*it)->_visited))
+			{
+				(*it)->_visited = true;
+				e = nullptr;
+				for (std::vector<GraphNode::edge>::iterator it2((*it)->_edges.begin()), end2((*it)->_edges.end()); it2 != end2; ++it2)
+				{
+					if (!(foundInVector(maveriks, it2->node)))
+					{
+						if (e)
+						{
+							if (e->value > it2->value)
+								e = &(*it2);
+						}
+						else
+							e = &(*it2);
+					}
+				}
+				if (e)
+					ret += e->value;
+			}
+		}
+#endif
 	}
 	return ret;
 }

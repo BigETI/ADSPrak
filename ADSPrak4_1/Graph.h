@@ -7,6 +7,8 @@
 #include <queue>
 #include <iostream>
 
+//#define PRIM_PLUS_MAVERIKS
+
 class Graph
 {
 public:
