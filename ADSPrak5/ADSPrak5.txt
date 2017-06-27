@@ -1,0 +1,89 @@
+ADS Praktikum 5
+
+Ethem Kurt
+Matr. Nr.: 4018517
+
+1.
+	Die Huffman-Codierung minimalisiert den Speicherplatzbedarf für Daten verlustfrei.
+
+2.
+	      (5)
+	      / \
+	(a = 3) (2)
+	        / \
+      (c = 1) (b = 1)
+	
+	a = 0
+	b = 11
+	c = 10
+	
+	abaac = 0 11 0 0 10
+
+3.
+	N = 22
+		e = 3
+		" " = 4
+		a = 2
+		t = 2
+		i = 2
+		d = 1
+		s = 1
+		h = 1
+		v = 1
+		l = 1
+		z = 1
+		u = 1
+		b = 1
+		n = 1
+
+	Codes:
+		" "	=	000
+		e	=	010
+		t	=	111
+		a	=	110
+		i	=	100
+		h	=	00101
+		u	=	00110
+		l	=	00111
+		n	=	00100
+		v	=	01101
+		b	=	0111
+		s	=	1010
+		d	=	1011
+		z	=	01100
+
+	Der Huffmancode ist auf der Webseite anders aufgebaut. Vor dem Einfügen in das Baum werden die Zeichen sotiert.
+
+4.
+	ASCII: abaac = 1100001 1100010 1100001 1100001 1100011
+	Huffman-Code: abaac = 1 00 1 1 01
+
+	Kompressionsrate: 7/35 = 20%
+
+5.
+	0 11 0 0 10 aus a = 0, b = 11, c = 10 = abaac
+
+6.
+	Nein, denn der Huffman-Code baut sich auf die Häufigkeit der Zeichen.
+
+7.
+	Das Codewort beinhaltet die codierten Wörter ohne den Bezug zu den originalen Codes
+	Das Codebuch ist das Lexikon für die Codewörter.
+
+8.
+	"grauwerte" ist das Codebuch.
+
+9.
+	Die Helligkeitdaten müssen auf 3 Komponenten erweitert werden (Rot, Grün und Blau) "grauwerte" -> "farbpalette"
+	Funktionen müssen angepasst werden, um "farbpalette" anzunehmen (z.B. Kompression::Erz_Blaetter(), Huffman_IO::write_code_vektor(), Kompression::HuffmanDeCode())
+
+10. 
+	Dieser Histogramm zeigt die Häufigkeiten der Helligkeitswerten im Bild
+
+11.
+	Huffman-Code (HC)
+		O(n * log n)
+	Lempel–Ziv–Welch (LZW)
+		O(log|∑| n)
+	Sequitur (S)
+		O(n)

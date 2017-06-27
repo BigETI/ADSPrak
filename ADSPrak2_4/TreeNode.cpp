@@ -5,7 +5,7 @@ using namespace std;
 
 void TreeNode::updateNodePosID()
 {
-	NodePosID = Alter + PLZ + (int)Einkommen;
+	NodePosID = Alter + PLZ + static_cast<int>(Einkommen);
 }
 
 TreeNode::TreeNode(std::string name, int alter, double einkommen, int plz, int node_id) : Name(name), Alter(alter), Einkommen(einkommen), PLZ(plz), NodeID(node_id), links(nullptr), rechts(nullptr)

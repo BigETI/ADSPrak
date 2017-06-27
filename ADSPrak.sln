@@ -19,6 +19,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ADSPrak3_1", "ADSPrak3_1\AD
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ADSPrak4_1", "ADSPrak4_1\ADSPrak4_1.vcxproj", "{5ECD0B22-8C11-4ECA-8D59-AF149783A497}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ADSPrak5", "ADSPrak5\ADSPrak5.vcxproj", "{3F1531FA-9AB6-491F-856D-8F40CC6B0DAF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -91,6 +93,14 @@ Global
 		{5ECD0B22-8C11-4ECA-8D59-AF149783A497}.Release|x64.Build.0 = Release|x64
 		{5ECD0B22-8C11-4ECA-8D59-AF149783A497}.Release|x86.ActiveCfg = Release|Win32
 		{5ECD0B22-8C11-4ECA-8D59-AF149783A497}.Release|x86.Build.0 = Release|Win32
+		{3F1531FA-9AB6-491F-856D-8F40CC6B0DAF}.Debug|x64.ActiveCfg = Debug|x64
+		{3F1531FA-9AB6-491F-856D-8F40CC6B0DAF}.Debug|x64.Build.0 = Debug|x64
+		{3F1531FA-9AB6-491F-856D-8F40CC6B0DAF}.Debug|x86.ActiveCfg = Debug|Win32
+		{3F1531FA-9AB6-491F-856D-8F40CC6B0DAF}.Debug|x86.Build.0 = Debug|Win32
+		{3F1531FA-9AB6-491F-856D-8F40CC6B0DAF}.Release|x64.ActiveCfg = Release|x64
+		{3F1531FA-9AB6-491F-856D-8F40CC6B0DAF}.Release|x64.Build.0 = Release|x64
+		{3F1531FA-9AB6-491F-856D-8F40CC6B0DAF}.Release|x86.ActiveCfg = Release|Win32
+		{3F1531FA-9AB6-491F-856D-8F40CC6B0DAF}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
