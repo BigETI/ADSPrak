@@ -4,6 +4,7 @@ List::List()
 	head = new Node;
 	tail = new Node;
 	_size = 0;
+	temp = false;
 	head->next = tail;
 	tail->prev = head;
 }
@@ -161,24 +162,25 @@ bool List::test(void)
 	}
 	return ret;
 }
+
 void List::format(const std::string & start, const std::string & zwischen, const std::string & ende)
 {
-	// Setzen der Formatierung für den überladenen Streamingoperator <<
-	_form.start = start;			// Ausgabe zu Beginn der Liste
-	_form.zwischen = zwischen;		// Ausgabe zwischen zwei Knoten
-	_form.ende = ende;				// Ausgabe am Ende der Liste
+	_form.start = start;
+	_form.zwischen = zwischen;
+	_form.ende = ende;
 }
+
 List & List::operator = (const List & _List)
 {
 	// in dem Objekt _List sind die Knoten enthalten, die Kopiert werden sollen.
 	// Kopiert wird in das Objekt "this"
-	if (this == & _List) return *this;	//  !! keine Aktion notwendig
+	if (this == &_List) return *this;	//  !! keine Aktion notwendig
 	Node * tmp_node;
 	if (_size)
 	{
 		Node * tmp_del;
 		tmp_node = head->next;
-		while (tmp_node != tail)		// Alle eventuell vorhandenen Knoten in this löschen
+		while (tmp_node != tail)		// Alle eventüll vorhandenen Knoten in this löschen
 		{
 			tmp_del = tmp_node;
 			tmp_node = tmp_node->next;
@@ -194,8 +196,10 @@ List & List::operator = (const List & _List)
 		InsertBack(tmp_node->key);
 		tmp_node = tmp_node->next;
 	}
+	if (_List.temp) delete & _List;		// ist die übergebene Liste eine temporäre Liste? -> aus Operator +
 	return *this;
 }
+
 List & List::operator = (const List * _List)
 {
 	// in dem Objekt _List sind die Knoten enthalten, die Kopiert werden sollen.
@@ -203,10 +207,10 @@ List & List::operator = (const List * _List)
 	if (this == _List) return *this;	//  !! keine Aktion notwendig
 	Node * tmp_node;
 	if (_size)
-	{	
+	{
 		Node * tmp_del;
 		tmp_node = head->next;
-		while (tmp_node != tail)		// Alle eventuell vorhandenen Knoten in this löschen
+		while (tmp_node != tail)		// Alle eventüll vorhandenen Knoten in this löschen
 		{
 			tmp_del = tmp_node;
 			tmp_node = tmp_node->next;
@@ -222,53 +226,78 @@ List & List::operator = (const List * _List)
 		InsertBack(tmp_node->key);
 		tmp_node = tmp_node->next;
 	}
-	return * this;
+	if (_List->temp) delete _List;		// ist die übergebene Liste eine temporäre Liste? -> aus Operator +
+	return *this;
 }
-List & List::operator + (const List & List_Append) const
+
+List & List::operator + (const List & List_Append)
 {
-	List * tmp = new List;
 	Node * tmp_node;
-	tmp_node = head->next;
-	while (tmp_node != tail){
-		tmp->InsertBack(tmp_node->key);
-		tmp_node = tmp_node->next;
+	List * tmp;
+	if (temp) {								// this ist eine temporäre Liste und kann verändert werden
+		tmp = this;
 	}
-	if (!List_Append._size) return * tmp;
-	tmp_node = List_Append.head->next;
-	while (tmp_node != List_Append.tail){
-		tmp->InsertBack(tmp_node->key);
-		tmp_node = tmp_node->next;
+	else {
+		tmp = new List;						// this ist keine temporäre Liste -> Kopie erzeugen
+		tmp->temp = true;					// Merker setzten, dass es sich um eine temporäre Liste handelt
+		tmp_node = head->next;
+		while (tmp_node != tail) {
+			tmp->InsertBack(tmp_node->key);
+			tmp_node = tmp_node->next;
+		}
 	}
-	return * tmp;
-}
-List & List::operator + (const List * List_Append) const
-{
-	List * tmp = new List;
-	Node * tmp_node;
-	tmp_node = head->next;
-	while (tmp_node != tail){
-		tmp->InsertBack(tmp_node->key);
-		tmp_node = tmp_node->next;
+	if (List_Append._size) {				// anhängen der übergebenen Liste an tmp
+		tmp_node = List_Append.head->next;
+		while (tmp_node != List_Append.tail) {
+			tmp->InsertBack(tmp_node->key);
+			tmp_node = tmp_node->next;
+		}
 	}
-	if (!List_Append->_size) return *tmp;
-	tmp_node = List_Append->head->next;
-	while (tmp_node != List_Append->tail){
-		tmp->InsertBack(tmp_node->key);
-		tmp_node = tmp_node->next;
-	}
+	if (List_Append.temp) delete & List_Append;		// wurde eine temporäre Liste übergeben, dann wird diese gelöscht							// 
 	return *tmp;
 }
+
+List & List::operator + (const List * List_Append)
+{
+	Node * tmp_node;
+	List * tmp;
+	if (temp) {								// this ist eine temporäre Liste und kann verändert werden
+		tmp = this;
+	}
+	else {
+		tmp = new List;						// this ist keine temporäre Liste -> Kopie erzeugen
+		tmp->temp = true;					// Merker setzten, dass es sich um eine temporäre Liste handelt
+		tmp_node = head->next;
+		while (tmp_node != tail) {
+			tmp->InsertBack(tmp_node->key);
+			tmp_node = tmp_node->next;
+		}
+	}
+	if (List_Append->_size) {				// anhängen der übergebenen Liste an tmp
+		tmp_node = List_Append->head->next;
+		while (tmp_node != List_Append->tail) {
+			tmp->InsertBack(tmp_node->key);
+			tmp_node = tmp_node->next;
+		}
+	}
+	if (List_Append->temp) delete List_Append;		// wurde eine temporäre Liste übergeben, dann wird diese gelöscht							// 
+	return *tmp;
+}
+
 std::ostream & operator<<(std::ostream  & stream, List const & Liste)
 {
 	stream << Liste._form.start;
 	for (Node * tmp = Liste.head->next; tmp != Liste.tail; tmp = tmp->next)
 		stream << tmp->key << (tmp->next == Liste.tail ? Liste._form.ende : Liste._form.zwischen);
+	if (Liste.temp) delete & Liste;			// wurde eine temporäre Liste übergeben, dann wird diese gelöscht
 	return stream;
 }
+
 std::ostream & operator << (std::ostream & stream, List const * Liste)
 {
 	stream << Liste->_form.start;
 	for (Node * tmp = Liste->head->next; tmp != Liste->tail; tmp = tmp->next)
 		stream << tmp->key << (tmp->next == Liste->tail ? Liste->_form.ende : Liste->_form.zwischen);
+	if (Liste->temp) delete Liste;			// wurde eine temporäre Liste übergeben, dann wird diese gelöscht
 	return stream;
 }

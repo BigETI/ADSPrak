@@ -13,7 +13,7 @@ int main(void)
 	while (true)
 	{
 		cout << "\nNachricht: ";
-		cin >> Text;
+		getline(cin, Text);
 		if (Text == "quit") break;
 		Tweets.InsertFront(tweet(Text));
 

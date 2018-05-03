@@ -7,7 +7,7 @@ int main(void)
 	int i;
 	List MyList;
 
-	for (i = 0; i < 10; i++){
+	for (i = 0; i < 10; i++) {
 		MyList.InsertFront(i + 1);
 		MyList.InsertBack(i + 100);
 	}
@@ -24,7 +24,7 @@ int main(void)
 	List MyList1, MyList2, MyList3;
 	List * MyList_dyn = new List;
 
-	for (i = 0; i < 10; i++){
+	for (i = 0; i < 10; i++) {
 		MyList1.InsertFront(i + 1);
 		MyList2.InsertBack(i + 100);
 	}
@@ -49,14 +49,14 @@ int main(void)
 	cout << MyList3 << endl;
 
 	cout << "tauschen von 8 mit 103\n\n";
-	MyList3.swap(8, 9);
-	
+	MyList3.swap(8, 103);
+
 	cout << MyList3;
 
 	if (MyList3.test())
 		cout << "MyList3: Zeiger OK\n";
 	else
 		cout << "MyList3: Zeiger ******Error\n";
-	getchar();
+
 	return 0;
 }

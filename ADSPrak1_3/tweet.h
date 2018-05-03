@@ -14,7 +14,7 @@ public:
 	tweet();
 	tweet(std::string text);
 	~tweet();
-	friend std::ostream & operator << (std::ostream & stream, const tweet & _tweet);		// Ausgabeoperator überladen
+	friend std::ostream & operator << (std::ostream & stream, const tweet & _tweet);		// Ausgabeoperator Ã¼berladen
 };
 
 tweet::tweet()
